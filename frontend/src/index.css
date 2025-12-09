@@ -1,0 +1,173 @@
+@import "tailwindcss"; /*Defindo os estilos*/
+
+@theme {
+  /* Cores base */
+  --color-border: hsl(var(--border));           /* Cor das bordas */
+  --color-background: hsl(var(--background));   /* Cor de fundo principal */
+  --color-foreground: hsl(var(--foreground));   /* Cor do texto */
+    /* Cores primárias */
+  --color-primary: hsl(var(--primary));         /* Cor primária (botões, links) */
+  --color-primary-foreground: hsl(var(--primary-foreground)); /* Texto sobre cor primária */
+  --color-card: hsl(var(--card));               /* Cor de cards/containers */
+  /* Animações */
+  --animate-float: float 6s ease-in-out infinite;                    /* Flutuação suave */
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;      /* Pulsação leve */
+  --animate-fade-in: fade-in 0.7s ease-out forwards;                 /* Aparecer gradual */
+  --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;    /* Aparecer com atraso */
+  --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
+  --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
+  --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
+  --animate-meteor: meteor 5s linear infinite;                       /* Efeito de meteoro */
+
+
+
+
+  
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% { 
+    transform: translateY(-10px); /* Move para cima */
+  }
+}
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8; /* Leve redução de opacidade */
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Começa abaixo */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Posição normal */
+  }
+}
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0); /* Posição inicial */
+    opacity: 1;
+  }
+  70% {
+    opacity: 1; /* Ainda visível */
+  }
+  100% {
+    transform: rotate(215deg) translateX(500px); /* Move para direita */
+    opacity: 0; /* Some gradualmente */
+  }
+ }
+}
+
+
+@layer base { /*camada base*/ /*o @ singnifica que a variavel chamada esta dentro da pasta*/
+  :root { /*modo claro*/
+    --background: 210 25% 92%; /*atribuindo valor a variavel responsavel pela cor de fundo */
+    --foreground: 224 47% 11%;
+
+    --card: 0 0% 100%;
+
+    --primary: 182, 25%, 50%; /* cor primária - textos e links*/
+    --primary-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+  }
+
+  .dark { /*modo escuro*/
+    --background: 222 47% 3%; /*atribuindo cor a varaivel */
+    --foreground: 213 31% 91%;
+
+    --card: 222 47% 8%;
+
+    --primary: 250 65% 65%;  
+    --primary-foreground: 213 31% 91%;
+
+    --border: 217 33% 20%;
+    }
+
+* {
+  @apply border-border;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-background text-foreground transition-colors duration-300;
+  font-feature-settings: "rlig" 1, "calt" 1;
+ }
+}
+
+  @utility container {
+  /*Classe utilitaria - pode ser chamado em qualquer pagina*/
+  margin-inline: auto;
+  padding-inline: 2rem;
+
+  /* Responsividade - largura máxima cresce com a tela */
+  @media (width >=640px) {
+    max-width: 640px;
+  }
+
+  @media (width >=768px) {
+    max-width: 768px;
+  }
+
+  @media (width >=1024px) {
+    max-width: 1024px;
+  }
+
+  @media (width >=1280px) {
+    max-width: 1280px;
+  }
+
+  @media (width >=1400px) {
+    max-width: 1400px;
+  }
+}
+  
+@utility text-glow {
+  /* Adiciona brilho roxo ao texto */
+  @apply relative;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+}
+
+@utility card-hover {
+  /* Efeito hover para cards - escala e sombra */
+  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+}
+
+@utility gradient-border {
+  /* Borda com gradiente - efeito visual moderno */
+  @apply relative rounded-md;
+  background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+@utility cosmic-button {
+  /* Botão espacial com efeitos hover  */
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
+         transition-all duration-300 hover:scale-105 active:scale-95;
+  
+  /* Shadow customizado separado - FORA do @apply */
+  &:hover {
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  }
+}
+
+
+
+
+#root {
+  max-width: 100%;      /* Ocupa toda a largura disponível */
+  margin: 0 auto;       /* Centraliza horizontalmente */
+  padding: 0;           /* Sem padding interno */
+  text-align: center;   /* Texto centralizado por padrão */
+}
