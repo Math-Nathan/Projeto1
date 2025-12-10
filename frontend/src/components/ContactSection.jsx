@@ -4,8 +4,8 @@ export const ContactSection = () => {
     const contactInfo = [
         {
             icon: MessageCircle,
-            text: "(61) 99999-9999",
-            href: "https://wa.me/5561999999999",
+            text: "(61) 981580652",
+            href: "https://wa.me/5561981580652",
             description: "Envie uma mensagem"
         },
         {
@@ -16,8 +16,8 @@ export const ContactSection = () => {
         },
         {
             icon: MapPin,
-            text: "789 Oak Lane, Lakeside, TX 54321",
-            href: "#",
+            text: "QMS 2 CJ A Lote27 - Brasília, DF ",
+            href: "https://maps.app.goo.gl/G6ow6dXC72ncQ9DaA",
             description: "Nossa localização"
         }
     ];
@@ -25,19 +25,15 @@ export const ContactSection = () => {
     const socialLinks = [
         {
             name: "Instagram",
-            href: "#",
+            href: "https://www.instagram.com/diogopena.fisioterapia?igsh=eTNqMG5ndnRwMnRw&utm_source=qr",
             icon: Instagram
         },
         {
             name: "Youtube",
-            href: "#",
+            href: "https://www.youtube.com/channel/UCippxGbgAwPD3Ic5zh5h7NA",
             icon: Youtube
         },
-        {
-            name: "Twitter",
-            href: "#",
-            icon: Twitter
-        }
+       
     ];
 
     const horarios = [
@@ -73,27 +69,99 @@ export const ContactSection = () => {
                                 const Icon = item.icon;
                                 return (
                                     <a
-                                        key={index}
-                                        href={item.href}
-                                        className="flex items-center p-4 rounded-lg hover:bg-primary/5 transition-all duration-300 group border border-transparent hover:border-primary/20"
-                                        target={item.href.startsWith('http') ? "_blank" : undefined}
-                                        rel={item.href.startsWith('http') ? "noopener noreferrer" : undefined}
-                                    >
-                                        <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                            <Icon
-                                                size={22}
-                                                className="text-primary group-hover:scale-110 transition-transform"
-                                            />
-                                        </div>
-                                        <div className="ml-4">
-                                            <span className="text-base font-medium text-foreground block group-hover:text-primary transition-colors">
-                                                {item.text}
-                                            </span>
-                                            {item.description && (
-                                                <span className="text-sm text-muted-foreground mt-1 block">{item.description}</span>
-                                            )}
-                                        </div>
-                                    </a>
+  key={index}
+  href={item.href}
+  className="
+    flex items-center p-4 rounded-lg 
+    hover:bg-primary/5 active:bg-primary/10
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2
+    transition-all duration-300 ease-out
+    group border border-transparent hover:border-primary/20
+    w-full min-h-[64px] md:min-h-[72px]
+  "
+  target={item.href.startsWith('http') ? "_blank" : undefined}
+  rel={item.href.startsWith('http') ? "noopener noreferrer noreferrer" : undefined}
+  aria-label={
+    item.description 
+      ? `${item.text}. ${item.description}`
+      : item.text
+  }
+  // Adicione isso se forem links internos que não devem ser indexados
+  {...(item.isExternal === false && {
+    "data-noindex": "true"
+  })}
+>
+  {/* Container do ícone com melhor acessibilidade */}
+  <div 
+    className="
+      flex-shrink-0 
+      w-12 h-12 
+      bg-primary/10 rounded-xl 
+      flex items-center justify-center 
+      group-hover:bg-primary/20 
+      group-active:scale-95
+      group-focus-visible:ring-2 group-focus-visible:ring-primary/30
+      transition-all duration-200
+      relative overflow-hidden
+    "
+    aria-hidden="true"
+  >
+    <Icon
+      size={22}
+      className="
+        text-primary 
+        group-hover:scale-110 
+        group-active:scale-100
+        transition-transform duration-200
+      "
+    />
+    {/* Efeito de fundo sutil no hover */}
+    <div className="
+      absolute inset-0 
+      bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 
+      opacity-0 group-hover:opacity-100 
+      transition-opacity duration-300
+    " />
+  </div>
+
+  {/* Container do texto */}
+  <div className="ml-4 flex-1 min-w-0">
+    <span className="
+      text-base font-semibold text-foreground 
+      block group-hover:text-primary 
+      group-focus-visible:text-primary
+      transition-colors duration-200
+      truncate
+    ">
+      {item.text}
+    </span>
+    
+    {item.description && (
+      <span className="
+        text-sm text-muted-foreground 
+        mt-1 block
+        line-clamp-2
+      ">
+        {item.description}
+      </span>
+    )}
+  </div>
+
+  {/* Indicador visual para links externos */}
+  {item.href.startsWith('http') && (
+    <Icon
+      name="ExternalLink" // Supondo que você tenha um ícone de link externo
+      size={16}
+      className="
+        ml-2 text-muted-foreground/60 
+        group-hover:text-primary 
+        transition-colors duration-200
+        flex-shrink-0
+      "
+      aria-hidden="true"
+    />
+  )}
+</a>
                                 );
                             })}
                         </div>

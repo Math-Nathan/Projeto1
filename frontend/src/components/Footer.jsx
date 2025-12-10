@@ -9,8 +9,12 @@ export const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     {/* Logo e direitos autorais */}
                     <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                        <div className="text-2xl font-bold text-primary">
-                            BeMove
+                        <div className="bg-white dark:bg-gray-100 rounded-lg px-3 py-2 shadow-md">
+                            <img 
+                                src="/images/logo.png" 
+                                alt="BeMove Fisioterapia" 
+                                className="h-12 w-auto object-contain"
+                            />
                         </div>
                         <div className="h-6 w-px bg-border"></div>
                         <div className="text-sm text-muted-foreground">
@@ -23,7 +27,10 @@ export const Footer = () => {
                         <span className="text-sm text-muted-foreground">
                             Desenvolvido por 
                             <span className="text-primary font-medium ml-1">
-                                Grupo 7
+                                @felipe6061
+                            </span>
+                            <span className="text-primary font-medium ml-1">
+                                @Math-Nathan
                             </span>
                         </span>
                         <div className="text-xs text-muted-foreground mt-1">

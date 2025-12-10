@@ -35,18 +35,15 @@ const servicos = [
         description: "Na Be Move Fisioterapia, o bem-estar dos idosos é uma prioridade. Desenvolvemos programas de fisioterapia especialmente adaptados às suas necessidades. Nosso compromisso é oferecer um cuidado personalizado, ajudando a manter a independência e a vitalidade em cada fase da vida.",
         gradient: "from-red-500 to-red-600",
     },
-    {
-        id: 7,
-        title: "Tratamento para Dor Crônica",
-        description: "Se você está lidando com dor crônica, a prática de movimento pode ser uma solução eficaz. Na Be Move Fisioterapia, utilizamos o MOVIMENTO para aliviar a dor e restaurar a função do corpo, promovendo bem-estar e qualidade de vida.",
-        gradient: "from-cyan-500 to-blue-600",
-    }
+   
+
+    
 ];
 
 export const ServicosSection = () => {
     // Dividindo os serviços em dois grupos
-    const leftServices = servicos.slice(0, 4); // 4 cards no lado esquerdo
-    const rightServices = servicos.slice(4, 7); // 3 cards no lado direito
+    const leftServices = [servicos[0], servicos[2], servicos[4]]; // IDs 1, 3, 5
+    const rightServices = [servicos[1], servicos[3], servicos[5]]; // IDs 2, 4, 6
 
     return (
         <section id="servicos" className="py-24 px-4 relative bg-background">
@@ -61,14 +58,14 @@ export const ServicosSection = () => {
                 </p>
 
                 {/* Container principal com dois lados */}
-                <div className="flex flex-col lg:flex-row gap-8">
+                <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
                     
-                    {/* Lado Esquerdo - 4 Cards */}
-                    <div className="flex-1 space-y-6">
-                        {leftServices.map((servico) => (
+                    {/* Lado Esquerdo - 3 Cards */}
+                    <div className="flex-1 flex flex-col gap-6">
+                        {leftServices.map((servico, index) => (
                             <div
                                 key={servico.id}
-                                className="group p-6 bg-card rounded-xl border border-border transition-all duration-300 cursor-pointer"
+                                className={`group p-6 bg-card rounded-xl border border-border transition-all duration-300 cursor-pointer h-full min-h-[260px] flex flex-col ${index === 2 ? 'lg:mt-auto' : ''}`}
                             >
                                 <div className="flex items-start gap-4">
                                     {/* Círculo minimalista */}
@@ -89,11 +86,11 @@ export const ServicosSection = () => {
                     </div>
 
                     {/* Lado Direito - 3 Cards */}
-                    <div className="flex-1 space-y-6">
-                        {rightServices.map((servico) => (
+                    <div className="flex-1 flex flex-col gap-6">
+                        {rightServices.map((servico, index) => (
                             <div
                                 key={servico.id}
-                                className="group p-6 bg-card rounded-xl border border-border transition-all duration-300 cursor-pointer"
+                                className={`group p-6 bg-card rounded-xl border border-border transition-all duration-300 cursor-pointer h-full min-h-[260px] flex flex-col ${index === 2 ? 'lg:mt-auto' : ''}`}
                             >
                                 <div className="flex items-start gap-4">
                                     {/* Círculo minimalista */}

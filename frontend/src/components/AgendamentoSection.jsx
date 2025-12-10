@@ -212,7 +212,7 @@ export const AgendamentoSection = () => {
     };
 
     return (
-        <Layout className="agendamento-section">
+        <Layout className="agendamento-section pt-24 md:pt-32">
             <div className='w-full flex gap-8 md:flex-nowrap flex-wrap p-6 bg-card rounded-xl border border-border card-hover smooth-transition'>
                 
                 {/* Seção de Horários */}

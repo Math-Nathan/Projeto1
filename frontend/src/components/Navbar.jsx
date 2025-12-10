@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Sobre", href: "#about" },
-  { name: "Serviços", href: "#servicos" },
   { name: "Metodos", href: "#metodos" },
+  { name: "Serviços", href: "#servicos" },
   { name: "Contato", href: "#contact" },
   { name: "Agenda", href: "/agenda", requiresPin: true }, // Protegido por PIN
   // Adicione mais itens protegidos se necessário
@@ -153,11 +153,16 @@ export const Navbar = () => {
           {/* LOGO */}
           <Link
             to="/"
-            className="text-xl font-bold text-primary flex items-center"
+            className="flex items-center bg-white dark:bg-gray-100 rounded-lg px-3 py-2 shadow-md hover:shadow-lg transition-all duration-300"
           >
-            <span className="relative z-10">
-              <span className="text-glow text-foreground">BeMove Fisioterapia</span>
-            </span>
+            <img 
+              src="/images/logo.png" 
+              alt="BeMove Fisioterapia" 
+              className={cn(
+                "w-auto object-contain transition-all duration-300",
+                isScrolled ? "h-10" : "h-14"
+              )}
+            />
           </Link>
 
           {/* Desktop Navigation */}
