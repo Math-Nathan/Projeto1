@@ -39,3 +39,5 @@ coverage/
 # Optional: lockfiles (uncomment if you don't want lockfiles tracked)
 # package-lock.json
 # yarn.lock
+.vercel
+.env*.local
