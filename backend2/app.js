@@ -7,7 +7,8 @@ const sessaoRoute = require('./routes/sessaoRoute');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware - CORS e JSON parsing configurados
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
