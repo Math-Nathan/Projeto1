@@ -26,7 +26,7 @@ class SessaoModel {
         return `${yyyy}-${mm}-${dd}`;
       }
 
-      const parts = dateInput.split(/[\/-\.]/);
+      const parts = dateInput.split(/[/\-.]/);
       if (parts.length === 3) {
         if (parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
         return `${parts[2].padStart(4,'0')}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
