@@ -4,11 +4,11 @@ class ClienteController {
   async create(req, res) {
     try {
       const cliente = req.body;
-      const result = await clienteModel.create(cliente);
+      const created = await clienteModel.create(cliente);
       res.status(201).json({
         message: 'Cliente criado com sucesso',
-        id: result.insertId,
-        data: cliente
+        id: created?.id_cliente_pk,
+        data: created
       });
     } catch (error) {
       res.status(500).json({
@@ -68,11 +68,11 @@ class ClienteController {
         });
       }
       
-      const result = await clienteModel.update(id, cliente);
+      const updated = await clienteModel.update(id, cliente);
       res.status(200).json({
         message: 'Cliente atualizado com sucesso',
-        affectedRows: result.affectedRows,
-        data: cliente
+        affectedRows: updated ? 1 : 0,
+        data: updated
       });
     } catch (error) {
       res.status(500).json({

@@ -16,11 +16,11 @@ class SessaoController {
         }
       }
       
-      const result = await sessaoModel.create(sessao);
+      const created = await sessaoModel.create(sessao);
       res.status(201).json({
         message: 'Sessão criada com sucesso',
-        id: result.insertId,
-        data: sessao
+        id: created?.id_sessao_pk,
+        data: created
       });
     } catch (error) {
       res.status(500).json({
@@ -115,11 +115,11 @@ class SessaoController {
         }
       }
       
-      const result = await sessaoModel.update(id, sessao);
+      const updated = await sessaoModel.update(id, sessao);
       res.status(200).json({
         message: 'Sessão atualizada com sucesso',
-        affectedRows: result.affectedRows,
-        data: sessao
+        affectedRows: updated ? 1 : 0,
+        data: updated
       });
     } catch (error) {
       res.status(500).json({

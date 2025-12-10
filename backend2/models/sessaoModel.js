@@ -1,10 +1,11 @@
-const pool = require('../db');
+const supabase = require('../db');
+
+const TABLE = 'sessao';
 
 class SessaoModel {
-  // Converte várias formas de data para o formato MySQL DATE (YYYY-MM-DD)
-  _formatDateForMySQL(dateInput) {
+  // Converte várias formas de data para o formato DATE (YYYY-MM-DD)
+  _formatDate(dateInput) {
     if (!dateInput) return null;
-    // Se já for Date
     const toDate = (d) => {
       const yy = d.getFullYear();
       const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -12,95 +13,103 @@ class SessaoModel {
       return `${yy}-${mm}-${dd}`;
     };
 
-    if (dateInput instanceof Date) {
-      return toDate(dateInput);
-    }
+    if (dateInput instanceof Date) return toDate(dateInput);
 
     if (typeof dateInput === 'string') {
-      // Se já estiver no formato YYYY-MM-DD, retorne diretamente (evita shift por fuso)
-      if (/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
-        return dateInput;
-      }
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) return dateInput;
 
-      // Aceita formatos como '2024-04-11T03:00:00.000Z' ou outras ISO
-      // Tenta converter para Date e extrair a parte de data (usando UTC para evitar shifts)
       const parsed = new Date(dateInput);
       if (!Number.isNaN(parsed.getTime())) {
-        // Extrai parte UTC para garantir que timestamps com Z sejam tratados corretamente
         const yyyy = parsed.getUTCFullYear();
         const mm = String(parsed.getUTCMonth() + 1).padStart(2, '0');
         const dd = String(parsed.getUTCDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
       }
 
-      // Se for algo como '11/04/2024', tentar rearranjar (DD/MM/YYYY)
-      const parts = dateInput.split(/[\/\-\.]/);
+      const parts = dateInput.split(/[\/-\.]/);
       if (parts.length === 3) {
-        // detectar ordem: se primeiro tem 4 dígitos, é YYYY-MM-DD
-        if (parts[0].length === 4) {
-          return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
-        }
-        // assumimos DD/MM/YYYY
+        if (parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
         return `${parts[2].padStart(4,'0')}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
       }
     }
 
     return null;
   }
+
   async create(sessao) {
     const { descricao, data, horario, id_cliente_FK } = sessao;
-    const dataFormatada = this._formatDateForMySQL(data);
-    const [result] = await pool.query(
-      'INSERT INTO Sessao (descricao, data, horario, id_cliente_FK) VALUES (?, ?, ?, ?)',
-      [descricao, dataFormatada, horario, id_cliente_FK]
-    );
-    return result;
+    const dataFormatada = this._formatDate(data);
+    const { data: created, error } = await supabase
+      .from(TABLE)
+      .insert([{ descricao, data: dataFormatada, horario, id_cliente_fk: id_cliente_FK }])
+      .select('*')
+      .single();
+
+    if (error) throw new Error(error.message);
+    return created;
   }
 
   async getAll() {
-    const [rows] = await pool.query(
-      `SELECT s.*, c.nome AS nome_cliente
-       FROM Sessao s
-       LEFT JOIN Cliente c ON s.id_cliente_FK = c.id_cliente_PK`
-    );
-    return rows;
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select('*')
+      .order('id_sessao_pk', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return data || [];
   }
 
   async getById(id) {
-    const [rows] = await pool.query(
-      `SELECT s.*, c.nome AS nome_cliente
-       FROM Sessao s
-       LEFT JOIN Cliente c ON s.id_cliente_FK = c.id_cliente_PK
-       WHERE s.id_sessao_PK = ?`,
-      [id]
-    );
-    return rows[0];
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select('*')
+      .eq('id_sessao_pk', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116' || error.details?.includes('Results contain 0 rows')) return null;
+      throw new Error(error.message);
+    }
+    return data;
   }
 
   async getByClienteId(id_cliente) {
-    const [rows] = await pool.query(
-      `SELECT s.*, c.nome AS nome_cliente
-       FROM Sessao s
-       LEFT JOIN Cliente c ON s.id_cliente_FK = c.id_cliente_PK
-       WHERE s.id_cliente_FK = ?`,
-      [id_cliente]
-    );
-    return rows;
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select('*')
+      .eq('id_cliente_fk', id_cliente)
+      .order('id_sessao_pk', { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return data || [];
   }
 
   async update(id, sessao) {
     const { descricao, data, horario, id_cliente_FK } = sessao;
-    const dataFormatada = this._formatDateForMySQL(data);
-    const [result] = await pool.query(
-      'UPDATE Sessao SET descricao = ?, data = ?, horario = ?, id_cliente_FK = ? WHERE id_sessao_PK = ?',
-      [descricao, dataFormatada, horario, id_cliente_FK, id]
-    );
-    return result;
+    const dataFormatada = this._formatDate(data);
+    const { data: updated, error } = await supabase
+      .from(TABLE)
+      .update({ descricao, data: dataFormatada, horario, id_cliente_fk: id_cliente_FK })
+      .eq('id_sessao_pk', id)
+      .select('*')
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116' || error.details?.includes('Results contain 0 rows')) return null;
+      throw new Error(error.message);
+    }
+    return updated;
   }
 
   async delete(id) {
-    const [result] = await pool.query('DELETE FROM Sessao WHERE id_sessao_PK = ?', [id]);
-    return result;
+    const { data, error } = await supabase
+      .from(TABLE)
+      .delete()
+      .eq('id_sessao_pk', id)
+      .select('id_sessao_pk');
+
+    if (error) throw new Error(error.message);
+    return { affectedRows: data?.length || 0 };
   }
 }
 
