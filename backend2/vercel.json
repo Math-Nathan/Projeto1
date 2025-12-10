@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
-}
-=======
-    {
   "version": 2,
   "builds": [
     {
@@ -25,4 +18,3 @@
     "SUPABASE_ANON_KEY": "@supabase_anon_key"
   }
 }
->>>>>>> ed7705c3705190ac93cb5aac4fd9387ad4569f28
