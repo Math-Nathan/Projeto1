@@ -1,5 +1,17 @@
 {
+  "name": "projeto1",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm --prefix backend2 run dev\" \"npm --prefix frontend run dev\"",
+    "dev:backend": "npm --prefix backend2 run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "start": "npm --prefix frontend run build && npm --prefix backend2 run start"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.87.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
