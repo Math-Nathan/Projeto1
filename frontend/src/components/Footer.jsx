@@ -27,6 +27,9 @@ export const Footer = () => {
                         <span className="text-sm text-muted-foreground">
                             Desenvolvido por 
                             <span className="text-primary font-medium ml-1">
+                                @DiegoA1962
+                            </span>
+                            <span className="text-primary font-medium ml-1">
                                 @felipe6061
                             </span>
                             <span className="text-primary font-medium ml-1">
