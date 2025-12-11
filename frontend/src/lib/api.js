@@ -3,7 +3,7 @@ import axios from 'axios';
 // ==================== CONFIGURAÇÃO ====================
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true' || false; // Ativar com VITE_USE_MOCK=true
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true' || true; // Ativar com VITE_USE_MOCK=true
 
 // ==================== MOCK DATA ====================
 
